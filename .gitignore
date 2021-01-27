@@ -21,3 +21,16 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+
+# 设置git上传忽略的文件
+**/mvnw
+**/mvnw.cmd
+
+**/.mvn
+
+# 编译后的文件
+**/target
+.idea
+
+**/.gitignore
