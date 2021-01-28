@@ -17,6 +17,6 @@
         <module>teamall-product</module>
         <module>teamall-order</module>
         <module>teamall-member</module>
-
+        <module>teamall-fast</module>
     </modules>
 </project>
