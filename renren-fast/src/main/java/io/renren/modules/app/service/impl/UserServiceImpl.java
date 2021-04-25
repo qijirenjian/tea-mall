@@ -41,4 +41,9 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
 
 		return user.getUserId();
 	}
+/*
+	public static void main(String[] args) {
+
+		System.out.println( DigestUtils.sha256Hex("9ec9750e709431dad22365cabc5c625482e574c74adaebba7dd02f1129e4ce1d"));
+	}*/
 }
