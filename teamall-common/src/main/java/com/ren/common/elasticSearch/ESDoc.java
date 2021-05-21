@@ -18,13 +18,20 @@ import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.FuzzyQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.RangeQueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.aggregations.AggregationBuilder;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 
+import javax.naming.Name;
 import java.io.IOException;
 
 /**
@@ -49,7 +56,13 @@ public class ESDoc {
 //        serchAllDoc();
 //        serchIfDoc();
 //        serchPageDoc();
-        serchOrderdDoc();
+//        serchOrderdDoc();
+//        serchGuoLvdDoc();
+//        serchGroupDoc();
+//        serchRangeDoc();
+//        serchMohuDoc();
+//        serchMaxDoc();
+        serchGroup1Doc();
 
 
     }
@@ -317,4 +330,192 @@ public class ESDoc {
         restHighLevelClient.close();
     }
 
+    /*高级查询-过滤字段*/
+    public static void serchGuoLvdDoc() throws IOException {
+        //创建ES客户端
+        RestHighLevelClient restHighLevelClient = new RestHighLevelClient(
+                RestClient.builder(new HttpHost("localhost",9200,"http"))
+        );
+
+        //排序查询
+        SearchRequest request = new SearchRequest();
+        request.indices("cjj");
+
+        //构建查询条件
+        SearchSourceBuilder builder = new SearchSourceBuilder().query(QueryBuilders.matchAllQuery());
+        String[] exclouds = {};//排除得字段
+        String[] inclouds = {"name"};//包含得字段
+        builder.fetchSource(inclouds,exclouds);
+        request.source( builder);
+
+        SearchResponse response = restHighLevelClient.search(request, RequestOptions.DEFAULT);
+
+        SearchHits hits = response.getHits();
+        System.out.println(hits.getTotalHits());
+        for(SearchHit hit : hits){
+            System.out.println(hit.getSourceAsString());
+        }
+
+        //关闭连接
+        restHighLevelClient.close();
+    }
+
+    /*高级查询-组合查询*/
+    public static void serchGroupDoc() throws IOException {
+        //创建ES客户端
+        RestHighLevelClient restHighLevelClient = new RestHighLevelClient(
+                RestClient.builder(new HttpHost("localhost",9200,"http"))
+        );
+
+        //排序查询
+        SearchRequest request = new SearchRequest();
+        request.indices("cjj");
+
+        //构建查询条件
+        SearchSourceBuilder builder = new SearchSourceBuilder();
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+//        boolQueryBuilder.must(QueryBuilders.matchQuery("age",16));//必须匹配
+
+        //||查询
+        boolQueryBuilder.should(QueryBuilders.matchQuery("age",16));
+        boolQueryBuilder.should(QueryBuilders.matchQuery("age",18));
+        builder.query(boolQueryBuilder);
+        request.source( builder);
+
+        SearchResponse response = restHighLevelClient.search(request, RequestOptions.DEFAULT);
+
+        SearchHits hits = response.getHits();
+        System.out.println(hits.getTotalHits());
+        for(SearchHit hit : hits){
+            System.out.println(hit.getSourceAsString());
+        }
+
+        //关闭连接
+        restHighLevelClient.close();
+    }
+
+    /*高级查询-范围查询*/
+    public static void serchRangeDoc() throws IOException {
+        //创建ES客户端
+        RestHighLevelClient restHighLevelClient = new RestHighLevelClient(
+                RestClient.builder(new HttpHost("localhost",9200,"http"))
+        );
+
+        //排序查询
+        SearchRequest request = new SearchRequest();
+        request.indices("cjj");
+
+        //构建查询条件
+        SearchSourceBuilder builder = new SearchSourceBuilder();
+        RangeQueryBuilder rangeQuery = QueryBuilders.rangeQuery("age");
+
+        rangeQuery.gte(17);
+        rangeQuery.lte(20);
+
+        builder.query(rangeQuery);
+        request.source( builder);
+
+        SearchResponse response = restHighLevelClient.search(request, RequestOptions.DEFAULT);
+
+        SearchHits hits = response.getHits();
+        System.out.println(hits.getTotalHits());
+        for(SearchHit hit : hits){
+            System.out.println(hit.getSourceAsString());
+        }
+
+        //关闭连接
+        restHighLevelClient.close();
+    }
+
+    /*高级查询-模糊查询*/
+    public static void serchMohuDoc() throws IOException {
+        //创建ES客户端
+        RestHighLevelClient restHighLevelClient = new RestHighLevelClient(
+                RestClient.builder(new HttpHost("localhost",9200,"http"))
+        );
+
+        //排序查询
+        SearchRequest request = new SearchRequest();
+        request.indices("cjj");
+
+        //构建查询条件
+        SearchSourceBuilder builder = new SearchSourceBuilder();
+        FuzzyQueryBuilder fuzzyQueryBuilder = QueryBuilders.fuzzyQuery("name","凑").fuzziness(Fuzziness.ONE);
+
+
+
+        builder.query(fuzzyQueryBuilder);
+        request.source( builder);
+
+        SearchResponse response = restHighLevelClient.search(request, RequestOptions.DEFAULT);
+
+        SearchHits hits = response.getHits();
+        System.out.println(hits.getTotalHits());
+        for(SearchHit hit : hits){
+            System.out.println(hit.getSourceAsString());
+        }
+
+        //关闭连接
+        restHighLevelClient.close();
+    }
+
+    /*高级查询-最大值查询*/
+    public static void serchMaxDoc() throws IOException {
+        //创建ES客户端
+        RestHighLevelClient restHighLevelClient = new RestHighLevelClient(
+                RestClient.builder(new HttpHost("localhost",9200,"http"))
+        );
+
+        //排序查询
+        SearchRequest request = new SearchRequest();
+        request.indices("cjj");
+
+        //构建查询条件
+        SearchSourceBuilder builder = new SearchSourceBuilder();
+        AggregationBuilder aggregationBuilder = AggregationBuilders.max("maxAge").field("age");
+
+        builder.aggregation(aggregationBuilder);
+        request.source( builder);
+
+        SearchResponse response = restHighLevelClient.search(request, RequestOptions.DEFAULT);
+
+        SearchHits hits = response.getHits();
+        System.out.println(hits.getTotalHits());
+        for(SearchHit hit : hits){
+            System.out.println(hit.getSourceAsString());
+        }
+
+        //关闭连接
+        restHighLevelClient.close();
+    }
+
+    /*高级查询-分组查询*/
+    public static void serchGroup1Doc() throws IOException {
+        //创建ES客户端
+        RestHighLevelClient restHighLevelClient = new RestHighLevelClient(
+                RestClient.builder(new HttpHost("localhost",9200,"http"))
+        );
+
+        //排序查询
+        SearchRequest request = new SearchRequest();
+        request.indices("cjj");
+
+        //构建查询条件
+        SearchSourceBuilder builder = new SearchSourceBuilder();
+        AggregationBuilder aggregationBuilder = AggregationBuilders.terms("ageGroup").field("age");
+
+        builder.aggregation(aggregationBuilder);
+        request.source( builder);
+
+        SearchResponse response = restHighLevelClient.search(request, RequestOptions.DEFAULT);
+
+        SearchHits hits = response.getHits();
+        System.out.println(hits.getTotalHits());
+        for(SearchHit hit : hits){
+            System.out.println(hit.getSourceAsString());
+        }
+
+        //关闭连接
+        restHighLevelClient.close();
+    }
 }
