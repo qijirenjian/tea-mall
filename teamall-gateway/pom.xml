@@ -8,38 +8,27 @@
         <version>2.2.2.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.ren</groupId>
-    <artifactId>teamall-member</artifactId>
+    <groupId>com.ren.teamall</groupId>
+    <artifactId>teamall-gateway</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>teamall-member</name>
-    <description>会员服务</description>
+    <name>teamall-gateway</name>
+    <description>API网关</description>
     <properties>
         <java.version>1.8</java.version>
         <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
     </properties>
     <dependencies>
 
-        <!--热部署-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <version>2.2.2.RELEASE</version>
-            <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency>
         <!--公共方法-->
         <dependency>
             <groupId>com.ren</groupId>
             <artifactId>teamall-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
 
         <dependency>
@@ -68,12 +57,6 @@
             </plugin>
         </plugins>
     </build>
-    <repositories>
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-        </repository>
-    </repositories>
+
 
 </project>

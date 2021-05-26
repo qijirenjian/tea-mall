@@ -5,6 +5,7 @@ import java.util.Map;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,11 +26,14 @@ import com.ren.common.utils.R;
  * @email qijirenjian@163.com
  * @date 2021-05-24 09:55:08
  */
+@RefreshScope//刷新获取配置中心的配置项
 @RestController
 @RequestMapping("coupon/coupon")
 public class CouponController {
     @Autowired
     private CouponService couponService;
+
+
 
     @RequestMapping("/member/list")
     public R memberCoupons(){

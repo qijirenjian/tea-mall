@@ -1,0 +1,11 @@
+
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: localhost:8848
+        namespace: 1e2a4c4a-248d-48e8-b2ac-d75aa7be3e5d
+  application:
+    name: teamall-gateway
+server:
+  port: 88

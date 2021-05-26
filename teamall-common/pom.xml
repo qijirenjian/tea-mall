@@ -26,6 +26,14 @@
 
     <dependencies>
 
+
+
+        <!--nacos配置中心-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <!--nacos服务注册中心-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
@@ -113,17 +121,6 @@
             <version>2.11.4</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>io.renren</groupId>
-            <artifactId>renren-fast</artifactId>
-            <version>3.0.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.renren</groupId>
-            <artifactId>renren-fast</artifactId>
-            <version>3.0.0</version>
-            <scope>compile</scope>
-        </dependency>
+
     </dependencies>
 </project>

@@ -20,5 +20,6 @@
         <module>renren-fast</module>
         <module>renren-generator</module>
         <module>teamall-common</module>
+        <module>teamall-gateway</module>
     </modules>
 </project>

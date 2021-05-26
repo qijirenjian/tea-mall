@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 
+import com.ren.teamall.member.feign.CouponFeignService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,6 +31,20 @@ import com.ren.common.utils.R;
 public class MemberController {
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    private CouponFeignService couponFeignService;
+    /*测试openfeign服务调用*/
+    @RequestMapping("/test")
+    public R test(){
+        MemberEntity memberEntity = new MemberEntity();
+        memberEntity.setNickname("王汝京");
+
+        R memberCoupons = couponFeignService.memberCoupons();
+        return R.ok().put("member",memberEntity).put("coupon",memberCoupons);
+
+
+    }
 
     /**
      * 列表
