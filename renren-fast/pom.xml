@@ -51,6 +51,14 @@
 	</properties>
 
 	<dependencies>
+
+		<!--公共方法-->
+		<dependency>
+			<groupId>com.ren</groupId>
+			<artifactId>teamall-common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

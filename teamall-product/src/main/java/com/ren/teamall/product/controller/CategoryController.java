@@ -1,6 +1,7 @@
 package com.ren.teamall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -30,6 +31,19 @@ import com.ren.common.utils.R;
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
+
+
+    /**
+     *
+     * 查出所有分类子分类
+     *
+     * */
+    @RequestMapping("/list/tree")
+    public R list(){
+        List<CategoryEntity> entities = categoryService.listWithTree();
+        return R.ok().put("data", entities);
+    }
+
 
     /**
      * 列表
@@ -74,10 +88,13 @@ public class CategoryController {
 
     /**
      * 删除
+     * @RequestBody:获取请求体，必须发送post请求
+     * springmvc自动将请求体数据转为对应对象
      */
     @RequestMapping("/delete")
     public R delete(@RequestBody Long[] catIds){
-		categoryService.removeByIds(Arrays.asList(catIds));
+
+		categoryService.removeMenuByIds(Arrays.asList(catIds));
 
         return R.ok();
     }
