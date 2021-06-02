@@ -55,7 +55,7 @@ public class BrandEntity implements Serializable {
 	private String firstLetter;
 	/**
 	 * 排序
-	 *
+	 *规定最小值
 	 */
 	@Min(value = 0)
 	private Integer sort;
