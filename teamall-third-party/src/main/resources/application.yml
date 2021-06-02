@@ -1,0 +1,16 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    alicloud:
+      access-key: LTAI5tBJrho7sfE7upaBUoCE
+      secret-key: dpJiia4xgDYxSRL5np0fZyRVXzbhx1
+      oss:
+        endpoint: oss-cn-beijing.aliyuncs.com
+        bucket: teamall-first
+  application:
+    name: teamall-third-party
+
+server:
+  port: 30000

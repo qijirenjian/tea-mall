@@ -8,6 +8,12 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+    alicloud:
+      access-key: LTAI5tBJrho7sfE7upaBUoCE
+      secret-key: dpJiia4xgDYxSRL5np0fZyRVXzbhx1
+      oss:
+        endpoint: oss-cn-beijing.aliyuncs.com
+
   application:
     name: teamall-product
 
@@ -19,4 +25,6 @@ mybatis-plus:
       logic-delete-value: 1
       logic-not-delete-value: 0
 server:
-  port: 10001
+  port: 10002
+
+# 导入OSS依赖后，使用的时候需要配置access

@@ -1,11 +1,13 @@
 package com.ren.teamall.product.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +19,7 @@ import com.ren.teamall.product.service.CategoryService;
 import com.ren.common.utils.PageUtils;
 import com.ren.common.utils.R;
 
+import javax.validation.Valid;
 
 
 /**
@@ -63,15 +66,31 @@ public class CategoryController {
     public R info(@PathVariable("catId") Long catId){
 		CategoryEntity category = categoryService.getById(catId);
 
-        return R.ok().put("category", category);
+        return R.ok().put("data", category);
     }
 
     /**
      * 保存
+     *
+     * 字段后台校验
+     * 1，在entity上添加校验注解
+     * 2，在要用的方法上添加开启校验注解@Valid
+     *
      */
     @RequestMapping("/save")
-    public R save(@RequestBody CategoryEntity category){
-		categoryService.save(category);
+    public R save(@Valid @RequestBody CategoryEntity category, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            Map<String ,String > map = new HashMap<>();
+            //获取校验结果
+            bindingResult.getFieldErrors().forEach((item)->{
+                String message = item.getDefaultMessage(); //配置文件中的，，想要自己的可以在entity上添加
+                String filed =item.getField();
+                map.put(filed,message);
+            });
+            return R.error(400,"提交的数据不合法！").put("data",map);
+        }else{
+            categoryService.save(category);
+        }
 
         return R.ok();
     }
