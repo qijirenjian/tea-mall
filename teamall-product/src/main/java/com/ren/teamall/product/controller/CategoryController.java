@@ -72,25 +72,12 @@ public class CategoryController {
     /**
      * 保存
      *
-     * 字段后台校验
-     * 1，在entity上添加校验注解
-     * 2，在要用的方法上添加开启校验注解@Valid
+
      *
      */
     @RequestMapping("/save")
-    public R save(@Valid @RequestBody CategoryEntity category, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            Map<String ,String > map = new HashMap<>();
-            //获取校验结果
-            bindingResult.getFieldErrors().forEach((item)->{
-                String message = item.getDefaultMessage(); //配置文件中的，，想要自己的可以在entity上添加
-                String filed =item.getField();
-                map.put(filed,message);
-            });
-            return R.error(400,"提交的数据不合法！").put("data",map);
-        }else{
-            categoryService.save(category);
-        }
+    public R save(@RequestBody CategoryEntity category){
+        categoryService.save(category);
 
         return R.ok();
     }
